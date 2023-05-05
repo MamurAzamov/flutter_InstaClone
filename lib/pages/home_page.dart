@@ -29,10 +29,10 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       body: PageView(
         controller: _pageController,
-        children: const [
-          MyFeedPage(),
+        children: [
+          MyFeedPage(pageController: _pageController,),
           MySearchPage(),
-          MyUploadPage(),
+          MyUploadPage(pageController: _pageController,),
           MyLikesPage(),
           MyProfilePage()
         ],
