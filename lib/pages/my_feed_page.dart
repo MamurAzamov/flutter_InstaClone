@@ -68,7 +68,7 @@ class _MyFeedPageState extends State<MyFeedPage> {
       color: Colors.white,
       child: Column(
         children: [
-          Divider(),
+          const Divider(),
           Container(
             padding: EdgeInsets.symmetric(horizontal: 10),
             child: Row(
@@ -126,8 +126,14 @@ class _MyFeedPageState extends State<MyFeedPage> {
                     icon: Icon(EvaIcons.heart, color: Colors.red,),
                   ),
                   IconButton(
+                    onPressed: (){
+
+                    },
+                    icon: Icon(EvaIcons.messageCircleOutline),
+                  ),
+                  IconButton(
                     onPressed: (){},
-                    icon: Icon(EvaIcons.share,),
+                    icon: Icon(EvaIcons.paperPlane,),
                   )
                 ],
               )

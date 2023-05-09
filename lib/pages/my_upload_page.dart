@@ -84,14 +84,14 @@ class _MyUploadPageState extends State<MyUploadPage> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
-        title: Text("UpLoad", style: TextStyle(color: Colors.black),),
+        title: const Text("UpLoad", style: TextStyle(color: Colors.black),),
         actions: [
           IconButton(
             onPressed: (){
               _uploadNewPost();
             },
-            icon: Icon(Icons.drive_folder_upload),
-            color: Color.fromRGBO(245, 96, 64, 1),
+            icon: const Icon(Icons.drive_folder_upload),
+            color: const Color.fromRGBO(245, 96, 64, 1),
           )
         ],
       ),
@@ -110,7 +110,7 @@ class _MyUploadPageState extends State<MyUploadPage> {
                       width: double.infinity,
                       height: MediaQuery.of(context).size.width,
                       color: Colors.grey.withOpacity(0.4),
-                      child: _image == null ? Center(
+                      child: _image == null ? const Center(
                         child: Icon(Icons.add_a_photo, size: 50, color: Colors.grey,),
                       ) : Stack(
                         children: [
