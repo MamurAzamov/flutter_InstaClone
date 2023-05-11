@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "879221329040",
+    "project_id": "flutter-instaclone-1f88b",
+    "storage_bucket": "flutter-instaclone-1f88b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:879221329040:android:c5a981a46f69ce748edc15",
+        "android_client_info": {
+          "package_name": "com.example.insta_clone"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "879221329040-b6m3kajeemmmhflsv0bk46as1pa31jek.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB_V58ezgU0aaBFfN8V6To_pKulHMh7gfs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "879221329040-b6m3kajeemmmhflsv0bk46as1pa31jek.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -42,12 +42,12 @@ class _HomePageState extends State<HomePage> {
           setState(() {
             _currentTap = index;
             _pageController!.animateToPage(index,
-                duration: Duration(milliseconds: 200), curve: Curves.easeIn);
+                duration: const Duration(milliseconds: 200), curve: Curves.easeIn);
           });
         },
         currentIndex: _currentTap,
         activeColor:
-        Color.fromRGBO(245, 96, 64, 1),
+        const Color.fromRGBO(245, 96, 64, 1),
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.home, size: 32,)

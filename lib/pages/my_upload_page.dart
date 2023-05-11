@@ -31,7 +31,7 @@ class _MyUploadPageState extends State<MyUploadPage> {
     captionController.text = "";
     _image = null;
     widget.pageController!.animateToPage(
-        0, duration: Duration(milliseconds: 200),
+        0, duration: const Duration(milliseconds: 200),
         curve: Curves.easeIn);
   }
 
@@ -53,26 +53,24 @@ class _MyUploadPageState extends State<MyUploadPage> {
         context: context,
         builder: (BuildContext context) {
           return SafeArea(
-            child: Container(
-              child: Wrap(
-                children: [
-                  ListTile(
-                      leading: const Icon(Icons.photo_library),
-                      title: const Text('Pick Photo'),
-                      onTap: () {
-                        _imgFromGallery();
-                        Navigator.of(context).pop();
-                      }),
-                  ListTile(
-                    leading: const Icon(Icons.photo_camera),
-                    title: const Text('Take Photo'),
+            child: Wrap(
+              children: [
+                ListTile(
+                    leading: const Icon(Icons.photo_library),
+                    title: const Text('Pick Photo'),
                     onTap: () {
-                      _imgFromCamera();
+                      _imgFromGallery();
                       Navigator.of(context).pop();
-                    },
-                  ),
-                ],
-              ),
+                    }),
+                ListTile(
+                  leading: const Icon(Icons.photo_camera),
+                  title: const Text('Take Photo'),
+                  onTap: () {
+                    _imgFromCamera();
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
             ),
           );
         });
@@ -122,7 +120,7 @@ class _MyUploadPageState extends State<MyUploadPage> {
                           Container(
                             width: double.infinity,
                             color: Colors.black12,
-                            padding: EdgeInsets.all(10),
+                            padding: const EdgeInsets.all(10),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.end,
                               children: [
@@ -132,7 +130,7 @@ class _MyUploadPageState extends State<MyUploadPage> {
                                       _image = null;
                                     });
                                   },
-                                  icon: Icon(Icons.highlight_remove),
+                                  icon: const Icon(Icons.highlight_remove),
                                   color: Colors.white,
                                 )
                               ],
@@ -143,10 +141,10 @@ class _MyUploadPageState extends State<MyUploadPage> {
                     ),
                   ),
                   Container(
-                    margin: EdgeInsets.only(left: 10, right: 10, top: 10),
+                    margin: const EdgeInsets.only(left: 10, right: 10, top: 10),
                     child: TextField(
                       controller: captionController,
-                      style: TextStyle(color: Colors.black),
+                      style: const TextStyle(color: Colors.black),
                       keyboardType: TextInputType.multiline,
                       minLines: 1,
                       maxLines: 5,

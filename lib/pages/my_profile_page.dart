@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:insta_clone/services/auth_service.dart';
 
 import '../model/post_model.dart';
 
@@ -52,26 +53,24 @@ class _MyProfilePageState extends State<MyProfilePage> {
         context: context,
         builder: (BuildContext context) {
           return SafeArea(
-            child: Container(
-              child: Wrap(
-                children: [
-                  ListTile(
-                      leading: const Icon(Icons.photo_library),
-                      title: const Text('Pick Photo'),
-                      onTap: () {
-                        _imgFromGallery();
-                        Navigator.of(context).pop();
-                      }),
-                  ListTile(
-                    leading: const Icon(Icons.photo_camera),
-                    title: const Text('Take Photo'),
+            child: Wrap(
+              children: [
+                ListTile(
+                    leading: const Icon(Icons.photo_library),
+                    title: const Text('Pick Photo'),
                     onTap: () {
-                      _imgFromCamera();
+                      _imgFromGallery();
                       Navigator.of(context).pop();
-                    },
-                  ),
-                ],
-              ),
+                    }),
+                ListTile(
+                  leading: const Icon(Icons.photo_camera),
+                  title: const Text('Take Photo'),
+                  onTap: () {
+                    _imgFromCamera();
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
             ),
           );
         });
@@ -88,7 +87,9 @@ class _MyProfilePageState extends State<MyProfilePage> {
             color: Colors.black, fontFamily: "Billabong", fontSize: 25),),
         actions: [
           IconButton(
-            onPressed: (){},
+            onPressed: (){
+              AuthService.signOutUser(context);
+            },
             icon: const Icon(Icons.exit_to_app),
             color: const Color.fromRGBO(245, 96, 64, 1),
           )
@@ -263,7 +264,7 @@ class _MyProfilePageState extends State<MyProfilePage> {
               placeholder: (contex, url) => const Center(
                 child: CircularProgressIndicator(),
               ),
-              errorWidget: (contex, url, error) => Icon(Icons.error),
+              errorWidget: (contex, url, error) => const Icon(Icons.error),
               fit:  BoxFit.cover,
             ),
           ),

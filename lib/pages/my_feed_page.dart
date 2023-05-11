@@ -39,11 +39,11 @@ class _MyFeedPageState extends State<MyFeedPage> {
           IconButton(
             onPressed: (){
               widget.pageController!.animateToPage(
-                  2, duration: Duration(milliseconds: 200),
+                  2, duration: const Duration(milliseconds: 200),
                   curve: Curves.easeIn);
             },
-            icon: Icon(Icons.camera_alt),
-            color: Color.fromRGBO(245, 96, 64, 1),
+            icon: const Icon(Icons.camera_alt),
+            color: const Color.fromRGBO(245, 96, 64, 1),
           )
         ],
       ),
@@ -70,7 +70,7 @@ class _MyFeedPageState extends State<MyFeedPage> {
         children: [
           const Divider(),
           Container(
-            padding: EdgeInsets.symmetric(horizontal: 10),
+            padding: const EdgeInsets.symmetric(horizontal: 10),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -84,7 +84,7 @@ class _MyFeedPageState extends State<MyFeedPage> {
                         height: 40,
                       ),
                     ),
-                    SizedBox(width: 10,),
+                    const SizedBox(width: 10,),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: const [
@@ -98,7 +98,7 @@ class _MyFeedPageState extends State<MyFeedPage> {
                   ],
                 ),
                 IconButton(
-                  icon: Icon(Icons.more_vert),
+                  icon: const Icon(Icons.more_vert),
                   onPressed: (){
 
                   },
@@ -106,14 +106,14 @@ class _MyFeedPageState extends State<MyFeedPage> {
               ],
             )
           ),
-          SizedBox(height: 8,),
+          const SizedBox(height: 8,),
           CachedNetworkImage(
             width: MediaQuery.of(context).size.width,
             imageUrl: post.img_post,
-            placeholder: (context, url) => Center(
+            placeholder: (context, url) => const Center(
               child: CircularProgressIndicator(),
             ),
-            errorWidget: (context, url, error) => Icon(Icons.error),
+            errorWidget: (context, url, error) => const Icon(Icons.error),
             fit: BoxFit.cover,
           ),
 
@@ -123,17 +123,17 @@ class _MyFeedPageState extends State<MyFeedPage> {
                 children: [
                   IconButton(
                     onPressed: (){},
-                    icon: Icon(EvaIcons.heart, color: Colors.red,),
+                    icon: const Icon(EvaIcons.heartOutline, color: Colors.red,),
                   ),
                   IconButton(
                     onPressed: (){
 
                     },
-                    icon: Icon(EvaIcons.messageCircleOutline),
+                    icon: const Icon(EvaIcons.messageCircleOutline),
                   ),
                   IconButton(
                     onPressed: (){},
-                    icon: Icon(EvaIcons.paperPlane,),
+                    icon: const Icon(EvaIcons.paperPlane,),
                   )
                 ],
               )
@@ -142,13 +142,13 @@ class _MyFeedPageState extends State<MyFeedPage> {
 
           Container(
             width: MediaQuery.of(context).size.width,
-            margin: EdgeInsets.only(left: 10, right: 10),
+            margin: const EdgeInsets.only(left: 10, right: 10),
             child: RichText(
               softWrap: true,
               overflow: TextOverflow.visible,
               text: TextSpan(
                 text: "${post.caption}",
-                style: TextStyle(color: Colors.black)
+                style: const TextStyle(color: Colors.black)
               )
             ),
           )

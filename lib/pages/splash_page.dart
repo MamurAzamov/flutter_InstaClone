@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:insta_clone/pages/home_page.dart';
 import 'package:insta_clone/pages/signin_page.dart';
+import 'package:insta_clone/services/auth_service.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({Key? key}) : super(key: key);
@@ -21,17 +22,17 @@ class _SplashPageState extends State<SplashPage> {
   }
 
   _initTimer(){
-    Timer(Duration(seconds: 2), (){
-      _callSignInPage();
+    Timer(const Duration(seconds: 2), (){
+      _callNextPage();
     });
   }
 
-  _callSignInPage(){
-    Navigator.pushReplacementNamed(context, SignInPage.id);
-  }
-
-  _callHomePage(){
-    Navigator.pushReplacementNamed(context, HomePage.id);
+  _callNextPage(){
+    if(AuthService.isLoggedIn()){
+      Navigator.pushReplacementNamed(context, HomePage.id);
+    }else{
+      Navigator.pushReplacementNamed(context, SignInPage.id);
+    }
   }
 
   @override
