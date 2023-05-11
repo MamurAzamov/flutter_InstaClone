@@ -26,6 +26,24 @@ class _SignUpPageState extends State<SignUpPage> {
     String email = emailController.text.toString().trim();
     String password = passwordController.text.toString().trim();
     String cpassword = cpasswordController.text.toString().trim();
+    
+    if(!email.contains(RegExp(
+        r'^.+@[a-zA-Z]+\.{1}[a-zA-Z]+(\.{0,1}[a-zA-Z]+)$'
+    ))){
+      return Utils.fireToast("Invalid email entered");
+    }
+
+    if(password.length < 8) {
+      return Utils.fireToast("password must be at least 8 characters long");
+    } else if(!password.contains(RegExp(r'[A-Z]'))) {
+      return Utils.fireToast("Must contain at least one uppercase letter");
+    } else if(!password.contains(RegExp(r'[a-z]'))) {
+      return Utils.fireToast("Must contain at least one lowercase letter");
+    } else if(!password.contains(RegExp(r'[0-9]'))) {
+      return Utils.fireToast("There must be at least one number");
+    } else if(!password.contains(RegExp(r'[!@#\$&*~]'))) {
+      return Utils.fireToast("Must contain at least one character");
+    }
 
     if (fullname.isEmpty || email.isEmpty || password.isEmpty) return;
 
@@ -175,7 +193,6 @@ class _SignUpPageState extends State<SignUpPage> {
                             ),
                           ),
                         )
-
                       ],
                     )
                 ),
