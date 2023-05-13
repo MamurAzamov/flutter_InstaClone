@@ -4,7 +4,10 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:insta_clone/services/auth_service.dart';
+import 'package:insta_clone/services/db_service.dart';
+import 'package:insta_clone/services/file_service.dart';
 
+import '../model/member_model.dart';
 import '../model/post_model.dart';
 
 class MyProfilePage extends StatefulWidget {
@@ -19,7 +22,7 @@ class _MyProfilePageState extends State<MyProfilePage> {
   int axisCount = 2;
   List<Post> items = [];
   File? _image;
-  String fullname = "Mamur", email = "email@gmail.com", img_url = "";
+  String fullname = "", email = "", img_url = "";
   int count_posts = 10, count_followers = 1415, count_following = 100;
   final ImagePicker _picker = ImagePicker();
 
@@ -32,12 +35,31 @@ class _MyProfilePageState extends State<MyProfilePage> {
     setState(() {
       _image = File(image!.path);
     });
+    _apiChangedPhoto();
   }
   _imgFromCamera() async {
     XFile? photo = await _picker.pickImage(source: ImageSource.camera, imageQuality: 50);
     setState(() {
       _image = File(photo!.path);
     });
+    _apiChangedPhoto();
+  }
+
+  void _apiChangedPhoto() {
+    if(_image == null) return;
+    setState(() {
+      isLoading = true;
+    });
+    FileService.uploadUserImage(_image!).then((downloadUrl) => {
+      _apiUpdateUser(downloadUrl),
+    });
+  }
+
+  _apiUpdateUser(String downloadUrl) async {
+    Member member = await DBService.loadMember();
+    member.img_url = downloadUrl;
+    await DBService.updateMember(member);
+    _apiLoadMember();
   }
 
   @override
@@ -46,6 +68,7 @@ class _MyProfilePageState extends State<MyProfilePage> {
     items.add(Post(image_1, "Sheikh Zayed Mosque in Abu Dhabi"));
     items.add(Post(image_2, "Mobile Development with Flutter"));
     items.add(Post(image_3, "Draw a picture"));
+    _apiLoadMember();
   }
 
   void _showPicker(context) {
@@ -74,6 +97,24 @@ class _MyProfilePageState extends State<MyProfilePage> {
             ),
           );
         });
+  }
+
+  void _apiLoadMember() {
+    setState(() {
+      isLoading = true;
+    });
+    DBService.loadMember().then((value) => {
+      _showMemberInfo(value),
+    });
+  }
+
+  void _showMemberInfo(Member member){
+    setState(() {
+      isLoading = false;
+      this.fullname = member.fullname;
+      this.email = member.email;
+      this.img_url = member.img_url;
+    });
   }
 
   @override
@@ -119,14 +160,14 @@ class _MyProfilePageState extends State<MyProfilePage> {
                         ),
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(35),
-                          child: _image
-                             == null ? const Image(
+                          child: img_url == null || img_url.isEmpty
+                            ? const Image(
                             image: AssetImage("assets/images/avatarInsta.png"),
                             width: 70,
                             height: 70,
                             fit: BoxFit.cover,
-                          ): Image.file(
-                            _image!,
+                          ): Image.network(
+                            img_url,
                             width: 70,
                             height: 70,
                             fit: BoxFit.cover,

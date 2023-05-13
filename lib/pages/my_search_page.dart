@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../model/member_model.dart';
+import '../services/db_service.dart';
 
 class MySearchPage extends StatefulWidget {
   const MySearchPage({Key? key}) : super(key: key);
@@ -15,12 +16,26 @@ class _MySearchPageState extends State<MySearchPage> {
 
   List<Member> items = [];
 
+  void _apiSearchMembers(String keyword) {
+    setState(() {
+      isLoading = true;
+    });
+    DBService.searchMembers(keyword).then((users) => {
+      _respSearchMembers(users),
+    });
+  }
+
+  void _respSearchMembers(List<Member> members) {
+    setState(() {
+      items = members;
+      isLoading = false;
+    });
+  }
+
   @override
   void initState() {
     super.initState();
-    items.add(Member("Mamur", "Mamur:gmail.com"));
-    items.add(Member("Mamur", "Mamur:gmail.com"));
-    items.add(Member("Mamur", "Mamur:gmail.com"));
+    _apiSearchMembers("");
   }
   @override
   Widget build(BuildContext context) {
@@ -90,12 +105,17 @@ class _MySearchPageState extends State<MySearchPage> {
             ),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(22.5),
-              child: const Image(
+              child: member.img_url.isEmpty ? const Image(
                 image: AssetImage("assets/images/avatarInsta.png"),
                 width: 45,
                 height: 45,
                 fit: BoxFit.cover,
-              ),
+              ): Image.network(
+                member.img_url,
+                width: 45,
+                height: 45,
+                fit: BoxFit.cover,
+              )
             ),
           ),
           const SizedBox(width: 15,),
