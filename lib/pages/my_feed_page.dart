@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:insta_clone/services/db_service.dart';
 
 import '../model/post_model.dart';
 
@@ -15,16 +16,27 @@ class MyFeedPage extends StatefulWidget {
 class _MyFeedPageState extends State<MyFeedPage> {
   bool isLoading = false;
   List<Post> items = [];
-  String image_1 = "https://images.unsplash.com/photo-1512971064777-efe44a486ae0";
-  String image_2 = "https://images.unsplash.com/photo-1493119508027-2b584f234d6c";
-  String image_3 = "https://images.unsplash.com/photo-1646617747566-b7e784435a48";
+
+  _apiLoadFeeds(){
+    setState(() {
+      isLoading = true;
+    });
+    DBService.loadFeeds().then((value) => {
+      _resLoadFeeds(value),
+    });
+  }
+
+  _resLoadFeeds(List<Post> posts){
+    setState(() {
+      items = posts;
+      isLoading = false;
+    });
+  }
 
   @override
   void initState() {
     super.initState();
-    items.add(Post(image_1, "Sheikh Zayed Mosque in Abu Dhabi"));
-    items.add(Post(image_2, "Mobile Development with Flutter"));
-    items.add(Post(image_3, "Draw a picture"));
+    _apiLoadFeeds();
   }
   @override
   Widget build(BuildContext context) {
@@ -78,20 +90,26 @@ class _MyFeedPageState extends State<MyFeedPage> {
                   children: [
                     ClipRRect(
                       borderRadius: BorderRadius.circular(40),
-                      child: const Image(
+                      child: post.img_user.isEmpty ? const Image(
                         image: AssetImage("assets/images/avatarInsta.png"),
                         width: 40,
                         height: 40,
-                      ),
+                        fit: BoxFit.cover,
+                      ): Image.network(
+                        post.img_user,
+                        width: 40,
+                        height: 40,
+                        fit: BoxFit.cover,
+                      )
                     ),
                     const SizedBox(width: 10,),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: const [
-                        Text("Azamov Mamur", style: TextStyle(
+                      children: [
+                        Text(post.fullname, style: const TextStyle(
                             fontWeight: FontWeight.bold, color: Colors.black),),
-                        SizedBox(height: 3,),
-                        Text("2023-05-03  13:23", style: TextStyle(
+                        const SizedBox(height: 3,),
+                        Text(post.date, style: const TextStyle(
                             fontWeight: FontWeight.normal),),
                       ],
                     )

@@ -23,12 +23,8 @@ class _MyProfilePageState extends State<MyProfilePage> {
   List<Post> items = [];
   File? _image;
   String fullname = "", email = "", img_url = "";
-  int count_posts = 10, count_followers = 1415, count_following = 100;
+  int count_posts = 0, count_followers = 0, count_following = 0;
   final ImagePicker _picker = ImagePicker();
-
-  String image_1 = "https://images.unsplash.com/photo-1512971064777-efe44a486ae0";
-  String image_2 = "https://images.unsplash.com/photo-1493119508027-2b584f234d6c";
-  String image_3 = "https://images.unsplash.com/photo-1646617747566-b7e784435a48";
 
   _imgFromGallery() async {
     XFile? image = await _picker.pickImage(source: ImageSource.gallery, imageQuality: 50);
@@ -62,13 +58,24 @@ class _MyProfilePageState extends State<MyProfilePage> {
     _apiLoadMember();
   }
 
+  _apiLoadPosts(){
+    DBService.loadPosts().then((value) => {
+      _resLoadPosts(value),
+    });
+  }
+
+  _resLoadPosts(List<Post> posts){
+    setState(() {
+      items = posts;
+      count_posts = posts.length;
+    });
+  }
+
   @override
   void initState() {
     super.initState();
-    items.add(Post(image_1, "Sheikh Zayed Mosque in Abu Dhabi"));
-    items.add(Post(image_2, "Mobile Development with Flutter"));
-    items.add(Post(image_3, "Draw a picture"));
     _apiLoadMember();
+    _apiLoadPosts();
   }
 
   void _showPicker(context) {
