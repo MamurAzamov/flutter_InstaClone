@@ -31,7 +31,7 @@ class _MyUploadPageState extends State<MyUploadPage> {
     setState(() {
       isLoading = true;
     });
-    FileService.uploadUserImage(_image!).then((downloadUrl) => {
+    FileService.uploadPostImage(_image!).then((downloadUrl) => {
       _resPostImage(downloadUrl),
     });
   }

@@ -118,9 +118,11 @@ class _MyProfilePageState extends State<MyProfilePage> {
   void _showMemberInfo(Member member){
     setState(() {
       isLoading = false;
-      this.fullname = member.fullname;
-      this.email = member.email;
-      this.img_url = member.img_url;
+      fullname = member.fullname;
+      email = member.email;
+      img_url = member.img_url;
+      count_following = member.followers_count;
+      count_followers = member.followers_count;
     });
   }
 

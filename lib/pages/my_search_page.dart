@@ -13,7 +13,6 @@ class MySearchPage extends StatefulWidget {
 class _MySearchPageState extends State<MySearchPage> {
   bool isLoading = false;
   var searchController = TextEditingController();
-
   List<Member> items = [];
 
   void _apiSearchMembers(String keyword) {
@@ -26,10 +25,34 @@ class _MySearchPageState extends State<MySearchPage> {
   }
 
   void _respSearchMembers(List<Member> members) {
-    setState(() {
+    if(mounted) setState(() {
       items = members;
       isLoading = false;
     });
+  }
+
+  void _apiFollowMember(Member someone) async {
+    setState(() {
+      isLoading = true;
+    });
+    await DBService.followMember(someone);
+    setState(() {
+      someone.followed = true;
+      isLoading = false;
+    });
+    DBService.storePostsToMyFeed(someone);
+  }
+
+  void _apiUnFollowMember(Member someone) async {
+    setState(() {
+      isLoading = true;
+    });
+    await DBService.unfollowMember(someone);
+    setState(() {
+      someone.followed = false;
+      isLoading = false;
+    });
+    DBService.removePostsFromMyFeed(someone);
   }
 
   @override
@@ -133,19 +156,24 @@ class _MySearchPageState extends State<MySearchPage> {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 InkWell(
-                  onTap: (){},
+                  onTap: (){
+                    if(member.followed){
+                      _apiUnFollowMember(member);
+                    }else{
+                      _apiFollowMember(member);
+                    }
+                  },
                   child: Container(
                     width: 100,
                     height: 30,
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(3),
-                        border: Border.all(
-                            width: 1,
-                            color: Colors.grey
-                        )
+                        color: Colors.blue
                     ),
-                    child: const Center(
-                      child: Text("Follow"),
+                    child: Center(
+                      child: member.followed ? Text("Following",style: TextStyle(
+                          color: Colors.white),): Text("Follow",style: TextStyle(
+                          color: Colors.white),),
                     ),
                   ),
                 )

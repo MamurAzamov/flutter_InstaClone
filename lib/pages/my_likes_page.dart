@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:insta_clone/services/db_service.dart';
 
 import '../model/post_model.dart';
 
@@ -15,16 +16,37 @@ class _MyLikesPageState extends State<MyLikesPage> {
 
   bool isLoading = false;
   List<Post> items = [];
-  String image_1 = "https://images.unsplash.com/photo-1512971064777-efe44a486ae0";
-  String image_2 = "https://images.unsplash.com/photo-1493119508027-2b584f234d6c";
-  String image_3 = "https://images.unsplash.com/photo-1646617747566-b7e784435a48";
+
+  void _apiLoadLikes(){
+    setState(() {
+      isLoading = true;
+    });
+    DBService.loadLikes().then((value) => {
+      _resLoadPost(value),
+    });
+  }
+
+  void _resLoadPost(List<Post> posts){
+    if(mounted) setState(() {
+      items = posts;
+      isLoading = false;
+    });
+  }
+
+  void _apiPostUnLike(Post post){
+    setState(() {
+      isLoading = true;
+      post.liked = false;
+    });
+    DBService.likePost(post, false).then((value) => {
+      _apiLoadLikes(),
+    });
+  }
 
   @override
   void initState() {
     super.initState();
-    items.add(Post(image_1, "Sheikh Zayed Mosque in Abu Dhabi"));
-    items.add(Post(image_2, "Mobile Development with Flutter"));
-    items.add(Post(image_3, "Draw a picture"));
+    _apiLoadLikes();
   }
   @override
   Widget build(BuildContext context) {
@@ -67,20 +89,24 @@ class _MyLikesPageState extends State<MyLikesPage> {
                     children: [
                       ClipRRect(
                         borderRadius: BorderRadius.circular(40),
-                        child: const Image(
+                        child: post.img_user.isEmpty ? const Image(
                           image: AssetImage("assets/images/avatarInsta.png"),
                           width: 40,
                           height: 40,
-                        ),
+                        ): Image.network(
+                          post.img_user,
+                          width: 40,
+                          height: 40,
+                        )
                       ),
                       const SizedBox(width: 10,),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: const [
-                          Text("Azamov Mamur", style: TextStyle(
+                        children: [
+                          Text(post.fullname, style: const TextStyle(
                               fontWeight: FontWeight.bold, color: Colors.black),),
-                          SizedBox(height: 3,),
-                          Text("2023-05-03  13:23", style: TextStyle(
+                          const SizedBox(height: 3,),
+                          Text(post.date, style: const TextStyle(
                               fontWeight: FontWeight.normal),),
                         ],
                       )
@@ -111,8 +137,16 @@ class _MyLikesPageState extends State<MyLikesPage> {
               Row(
                 children: [
                   IconButton(
-                    onPressed: (){},
-                    icon: const Icon(EvaIcons.heart, color: Colors.red,),
+                    onPressed: (){
+                      _apiPostUnLike(post);
+                    },
+                    icon: post.liked ? const Icon(
+                      EvaIcons.heart,
+                      color: Colors.red,
+                    ): const Icon(
+                      EvaIcons.heartOutline,
+                      color: Colors.black,
+                    ),
                   ),
                   IconButton(
                     onPressed: (){
