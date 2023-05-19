@@ -25,10 +25,12 @@ class _MySearchPageState extends State<MySearchPage> {
   }
 
   void _respSearchMembers(List<Member> members) {
-    if(mounted) setState(() {
+    if(mounted) {
+      setState(() {
       items = members;
       isLoading = false;
     });
+    }
   }
 
   void _apiFollowMember(Member someone) async {
@@ -36,10 +38,12 @@ class _MySearchPageState extends State<MySearchPage> {
       isLoading = true;
     });
     await DBService.followMember(someone);
-    setState(() {
+    if(mounted) {
+      setState(() {
       someone.followed = true;
       isLoading = false;
     });
+    }
     DBService.storePostsToMyFeed(someone);
   }
 

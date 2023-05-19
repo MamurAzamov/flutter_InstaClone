@@ -25,6 +25,9 @@ class DBService {
     member.device_type = params["device_type"]!;
     member.device_token = params["device_token"]!;
 
+    member.device_id = params["device_id"];
+    member.device_type = params["device_type"];
+    member.device_token = params["device_token"];
     return _firestore
         .collection(folder_users)
         .doc(member.uid)

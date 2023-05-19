@@ -9,6 +9,7 @@ import 'package:insta_clone/services/file_service.dart';
 
 import '../model/member_model.dart';
 import '../model/post_model.dart';
+import '../services/utils_service.dart';
 
 class MyProfilePage extends StatefulWidget {
   const MyProfilePage({Key? key}) : super(key: key);
@@ -71,6 +72,28 @@ class _MyProfilePageState extends State<MyProfilePage> {
     });
   }
 
+  _dialogRemovePost(Post post) async {
+    var result  = await Utils.dialogCommon(context, "Insta Clone", "Do you want to delete this post?", false);
+    if(result != null && result){
+      setState(() {
+        isLoading = true;
+      });
+      DBService.removePost(post).then((value) => {
+        _apiLoadPosts(),
+      });
+    }
+  }
+
+  _dialogLogout() async {
+    var result  = await Utils.dialogCommon(context, "Insta Clone", "Do you want to logout?", false);
+    if(result != null && result){
+      setState(() {
+        isLoading = true;
+      });
+      AuthService.signOutUser(context);
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -107,9 +130,11 @@ class _MyProfilePageState extends State<MyProfilePage> {
   }
 
   void _apiLoadMember() {
-    setState(() {
+    if(mounted) {
+      setState(() {
       isLoading = true;
     });
+    }
     DBService.loadMember().then((value) => {
       _showMemberInfo(value),
     });
@@ -138,7 +163,7 @@ class _MyProfilePageState extends State<MyProfilePage> {
         actions: [
           IconButton(
             onPressed: (){
-              AuthService.signOutUser(context);
+              _dialogLogout();
             },
             icon: const Icon(Icons.exit_to_app),
             color: const Color.fromRGBO(245, 96, 64, 1),
@@ -303,26 +328,31 @@ class _MyProfilePageState extends State<MyProfilePage> {
   }
 
   Widget _itemOfPost(Post post){
-    return Container(
-      margin: const EdgeInsets.all(5),
-      child: Column(
-        children: [
-          Expanded(
-            child: CachedNetworkImage(
-              width: double.infinity,
-              imageUrl: post.img_post,
-              placeholder: (contex, url) => const Center(
-                child: CircularProgressIndicator(),
+    return InkWell(
+      onLongPress: (){
+        _dialogRemovePost(post);
+      },
+      child: Container(
+        margin: const EdgeInsets.all(5),
+        child: Column(
+          children: [
+            Expanded(
+              child: CachedNetworkImage(
+                width: double.infinity,
+                imageUrl: post.img_post,
+                placeholder: (contex, url) => const Center(
+                  child: CircularProgressIndicator(),
+                ),
+                errorWidget: (contex, url, error) => const Icon(Icons.error),
+                fit:  BoxFit.cover,
               ),
-              errorWidget: (contex, url, error) => const Icon(Icons.error),
-              fit:  BoxFit.cover,
             ),
-          ),
-          const SizedBox(height: 3,),
-          Text(post.caption, style: TextStyle(
-              color: Colors.black87.withOpacity(0.7)),maxLines: 2,)
-        ],
-      ),
+            const SizedBox(height: 3,),
+            Text(post.caption, style: TextStyle(
+                color: Colors.black87.withOpacity(0.7)),maxLines: 2,)
+          ],
+        ),
+      )
     );
   }
 }
