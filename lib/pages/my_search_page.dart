@@ -175,8 +175,8 @@ class _MySearchPageState extends State<MySearchPage> {
                         color: Colors.blue
                     ),
                     child: Center(
-                      child: member.followed ? Text("Following",style: TextStyle(
-                          color: Colors.white),): Text("Follow",style: TextStyle(
+                      child: member.followed ? const Text("Following",style: TextStyle(
+                          color: Colors.white),): const Text("Follow",style: TextStyle(
                           color: Colors.white),),
                     ),
                   ),

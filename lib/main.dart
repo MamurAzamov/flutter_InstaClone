@@ -4,10 +4,12 @@ import 'package:insta_clone/pages/home_page.dart';
 import 'package:insta_clone/pages/signin_page.dart';
 import 'package:insta_clone/pages/signup_page.dart';
 import 'package:insta_clone/pages/splash_page.dart';
+import 'package:insta_clone/services/notif_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  await NotifService.init();
   runApp(const MyApp());
 }
 
