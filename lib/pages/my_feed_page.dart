@@ -3,6 +3,7 @@ import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:insta_clone/services/db_service.dart';
 import 'package:insta_clone/services/utils_service.dart';
+import 'package:share_plus/share_plus.dart';
 
 import '../model/post_model.dart';
 
@@ -192,12 +193,8 @@ class _MyFeedPageState extends State<MyFeedPage> {
                   ),
                   IconButton(
                     onPressed: (){
-
+                      Share.share(post.img_post);
                     },
-                    icon: const Icon(EvaIcons.messageCircleOutline),
-                  ),
-                  IconButton(
-                    onPressed: (){},
                     icon: const Icon(EvaIcons.paperPlane,),
                   )
                 ],
