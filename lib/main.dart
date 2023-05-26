@@ -4,6 +4,7 @@ import 'package:insta_clone/pages/home_page.dart';
 import 'package:insta_clone/pages/signin_page.dart';
 import 'package:insta_clone/pages/signup_page.dart';
 import 'package:insta_clone/pages/splash_page.dart';
+import 'package:insta_clone/pages/users_page.dart';
 import 'package:insta_clone/services/notif_service.dart';
 
 void main() async {
@@ -27,7 +28,8 @@ class MyApp extends StatelessWidget {
       routes: {
         HomePage.id: (context) => HomePage(),
         SignInPage.id: (context) => SignInPage(),
-        SignUpPage.id: (context) => SignUpPage()
+        SignUpPage.id: (context) => SignUpPage(),
+        UserPage.id: (context) => UserPage()
       },
     );
   }

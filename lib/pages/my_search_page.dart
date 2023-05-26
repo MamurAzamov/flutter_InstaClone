@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:insta_clone/pages/users_page.dart';
 
 import '../model/member_model.dart';
 import '../services/db_service.dart';
@@ -150,7 +151,12 @@ class _MySearchPageState extends State<MySearchPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(member.fullname, style: const TextStyle(fontWeight: FontWeight.bold),),
+              GestureDetector(
+                onTap: (){
+                  Navigator.pushNamed(context, UserPage.id);
+                },
+                child: Text(member.fullname, style: const TextStyle(fontWeight: FontWeight.bold),),
+              ),
               const SizedBox(height: 3,),
               Text(member.email, style: const TextStyle(color: Colors.black54),),
             ],
